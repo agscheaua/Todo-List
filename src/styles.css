@@ -1,0 +1,43 @@
+/* general styles optimization and :root pseudo-class to store 
+variable in it if necessary
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  cursor: default;
+}
+
+:root {
+  --background-general-color: #1b1b1b;
+  --background-general-textColor: #E4ECF9;
+}
+
+body {
+  background-color: var(--background-general-color);
+
+}
+
+/* header styles
+*/
+
+.header  {
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+
+.icon img {
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+}
+
+.title {
+  font-size: 3rem;
+  color: white;
+  padding-bottom: 10px;
+}
