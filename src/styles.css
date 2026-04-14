@@ -28,6 +28,7 @@ body {
   display: flex;
   align-items: center;
   height: 100px;
+  border: 1px solid red;
 }
 
 .icon img {
@@ -40,4 +41,5 @@ body {
   font-size: 3rem;
   color: white;
   padding-bottom: 10px;
+  cursor: pointer;
 }
