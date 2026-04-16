@@ -14,6 +14,7 @@ variable in it if necessary
 :root {
   --background-general-color: #1b1b1b;
   --background-general-textColor: #E4ECF9;
+  --background-elements: #37393b;
 }
 
 body {
@@ -28,7 +29,6 @@ body {
   display: flex;
   align-items: center;
   height: 100px;
-  border: 1px solid red;
 }
 
 .icon img {
@@ -42,4 +42,27 @@ body {
   color: white;
   padding-bottom: 10px;
   cursor: pointer;
+}
+
+/* side bar styles
+*/
+
+.createButton {
+  background-color: var(--background-elements);
+  color: var(--background-general-textColor);
+  padding: 20px;
+  margin: 10px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  border: 1px solid var(--background-elements);
+}
+.createButton:hover {
+  filter: brightness(150%);
+}
+
+.projectsContainer {
+  color: var(--background-general-textColor);
+  font-size: 1.2rem;
+  margin: 10px;
+  padding-left: 20px;
 }

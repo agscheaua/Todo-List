@@ -1,16 +1,52 @@
 import {compareAsc, format} from "date-fns";
-export {createSideBar};
-export {eventSideBar};
+export {createProject};
 
-const createSideBar = function() { 
-  const button1 = document.createElement("button");
-  button1.textContent = "create project";
-  
-  return {button1};
+function createProject() {
+  createModal();
 };
 
-function eventSideBar() {
-  (createSideBar.button1).addEventListener("click", () => {
-    console.log("hello");
-  })
+function createModal() {
+  const createButton = document.querySelector(".createButton");
+  const modalContainer = document.querySelector(".modalContainer");
+  const inputSpace = document.querySelector("#inputSpace");
+  
+  createButton.addEventListener("click", (eve) => {
+    modalContainer.showModal();
+    inputSpace.value = "";
+  });
+
+  const submitModal = document.querySelector(".submitModal");
+  submitModal.addEventListener("click", (eve) => {
+    eve.preventDefault();
+    if (inputSpace.value === "") {
+      console.log("empty");
+    }
+    else{
+      inputSpaceText = inputSpace.value;
+      console.log(inputSpaceText);
+      modalContainer.close();
+    };
+  }); 
+
+  const cancelModal = document.querySelector(".cancelModal");
+  cancelModal.addEventListener("click", (eve) => {
+    eve.preventDefault();
+    modalContainer.close();
+  }); 
+
+  let inputSpaceText;
+
+  return {
+    inputSpaceText
+  };
 }
+
+let test1 = createModal();
+console.log(test1.inputSpaceText);
+
+function createOneProject() {
+  const submitModal = document.querySelector(".submitModal");
+  submitModal.addEventListener("click", (eve) => {
+    eve.preventDefault();
+  });
+};
