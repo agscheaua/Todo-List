@@ -3,6 +3,7 @@ export {createProject};
 
 function createProject() {
   createModal();
+  returnModalText();
 };
 
 function createModal() {
@@ -22,8 +23,6 @@ function createModal() {
       console.log("empty");
     }
     else{
-      inputSpaceText = inputSpace.value;
-      console.log(inputSpaceText);
       modalContainer.close();
     };
   }); 
@@ -33,20 +32,33 @@ function createModal() {
     eve.preventDefault();
     modalContainer.close();
   }); 
+};
+
+function returnModalText() {
+  const inputSpace = document.querySelector("#inputSpace");
+  const submitModal = document.querySelector(".submitModal");
 
   let inputSpaceText;
 
-  return {
-    inputSpaceText
-  };
-}
-
-let test1 = createModal();
-console.log(test1.inputSpaceText);
-
-function createOneProject() {
-  const submitModal = document.querySelector(".submitModal");
   submitModal.addEventListener("click", (eve) => {
-    eve.preventDefault();
+    inputSpaceText = inputSpace.value;
+    localStorage.setItem("inputSpaceText", inputSpaceText);
+    console.log(localStorage.getItem("inputSpaceText"));
   });
+
+  
 };
+
+const getElements = (function() {
+  const createButton = document.querySelector(".createButton");
+  const modalContainer = document.querySelector(".modalContainer");
+  const inputSpace = document.querySelector("#inputSpace");
+  const submitModal = document.querySelector(".submitModal");
+  const cancelModal = document.querySelector(".cancelModal");
+
+  return {createButton, modalContainer, inputSpace,
+    submitModal, cancelModal};
+}) ();
+
+
+createProject(); 
