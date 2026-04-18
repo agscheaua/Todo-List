@@ -1,6 +1,7 @@
 import "./styles.css";
 import {ProjectsCreator} from "./projectsCreator.js";
-import {createProject} from "./DOMCreator.js";
+import {createWebpage} from "./DOMCreator.js";
+import {getStaticElements} from "./DOMCreator.js";
 
 const project1 = new ProjectsCreator("Project1");
 

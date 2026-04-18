@@ -1,5 +1,6 @@
 import {compareAsc, format} from "date-fns";
 export {ProjectsCreator};
+import {getStaticElements} from "./DOMCreator.js";
 
 class ProjectsCreator {
   constructor(projectName) {
