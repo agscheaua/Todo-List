@@ -13,6 +13,7 @@ function createWebpage() {
   createProjectBoard();
   createProject();
   projectsContainer;
+  displayProjectBoard();
 };
  
 // gets all the elements created in the html template documnent;
@@ -99,15 +100,15 @@ function createProject() {
 
 function createProjectBoard() {
   getStaticElements.projectsContainer.addEventListener("click", (eve) => {
-    if (eve.target.classList.contains("hasBoard") || eve.target.nodeName != "BUTTON") {
-      console.log("a board alredy exist");
+    if (eve.target.classList.contains("hasBoard") || eve.target.nodeName !== "BUTTON") {
+      console.log("SOMETHING IS WRONG");
     }
-    else {
+    else if (!(eve.target.classList.contains("hasBoard")) && eve.target.nodeName === "BUTTON") {
       eve.target.classList.add("hasBoard");
 
       const projectBoard = document.createElement("div");
       getStaticElements.projectBoardContainer.appendChild(projectBoard);
-      projectBoard.classList.add(`board${eve.target.textContent}`, "projectBoard");
+      projectBoard.classList.add(`board${eve.target.textContent}`, "projectBoard", "closed");
      
       const projectBoardTitle = document.createElement("div");
       projectBoard.appendChild(projectBoardTitle);
@@ -117,11 +118,55 @@ function createProjectBoard() {
       const addTodoToBoard = document.createElement("button");
       projectBoard.appendChild(addTodoToBoard);
       addTodoToBoard.classList.add(`addTodo${eve.target.textContent}`);
-      addTodoToBoard.textContent = "Add a new todo.";
+      addTodoToBoard.textContent = "Add a todo";
+    }
+    else {
+      console.log("SOMETHING IS WRONG");
     }; 
   });
 };
 
+// function that handles the logic of the board for each project button, to display
+// it or hide it;
+
+function displayProjectBoard() {
+  getStaticElements.projectsContainer.addEventListener("click", (eve) => {
+    const getAllProjectBoards = document.querySelectorAll(".projectBoard");
+    const dynamicProjectBoard = document.querySelector(`.board` +`${eve.target.textContent}`);
+    
+    if (eve.target.classList.contains("hasBoard") &&
+      eve.target.nodeName === "BUTTON" &&
+      dynamicProjectBoard.classList.contains("closed")) {
+
+      dynamicProjectBoard.classList.remove("closed");
+      dynamicProjectBoard.classList.add("open");
+      closeAllBoards();
+    }
+    else if (eve.target.classList.contains("hasBoard") &&
+      eve.target.nodeName === "BUTTON" &&
+      dynamicProjectBoard.classList.contains("open")) {
+
+      dynamicProjectBoard.classList.remove("open");
+      dynamicProjectBoard.classList.add("closed");
+      closeAllBoards();
+    }
+    else {
+    };
+    console.log(getAllProjectBoards);
+
+    function closeAllBoards() {
+      getAllProjectBoards.forEach( (elem) => {
+        if (elem === dynamicProjectBoard) {
+          console.log("no");
+        }
+        else {
+          elem.classList.remove("open");
+          elem.classList.add("closed");
+        };
+      });
+    };
+  });
+};
 
 
 

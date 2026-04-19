@@ -15,6 +15,7 @@ variable in it if necessary
   --background-general-color: #1b1b1b;
   --background-general-textColor: #E4ECF9;
   --background-elements: #37393b;
+  --background-board: #131314;
 }
 
 body {
@@ -67,6 +68,7 @@ body {
 }
 .createButton:hover {
   filter: brightness(150%);
+  cursor: pointer;
 }
 
 .projectsContainer {
@@ -81,17 +83,17 @@ body {
 */
 
 .projButton {
-  background-color: var(--background-elements);
+  background-color: var(--background-general-color);
   color: var(--background-general-textColor);
   display: block;
   font-size: 1.2rem;
   margin-top: 10px;
   padding: 5px 10px 5px 0px;
-  border: 1px solid var(--background-elements);
-  border-radius: 6px;
+  border: 0px;
 }
 .projButton:hover {
-  filter: brightness(150%);
+  text-decoration-line: underline;
+  cursor: pointer;
 }
 
 /*main styles;
@@ -106,6 +108,35 @@ body {
 */
 
 .projectBoard{
-  background-color: #131314;
+  background-color: var(--background-board);
   color: var(--background-general-textColor);
+  padding: 20px;
+  width: 85%;
+  margin: auto;
+  border-radius: 6px;
+}
+.projectBoard > * {
+  margin-top: 15px;
+  color: var(--background-general-textColor);
+  font-size: 1.2rem;
+}
+
+.projectBoard :first-child {
+  font-size: 1.5rem;
+  margin: 0px;
+}
+
+.projectBoard > button {
+  background-color: var(--background-elements);
+  color: var(--background-general-textColor);
+  border: 1px solid var(--background-elements);
+  border-radius: 6px;
+  padding: 5px 0px;
+}
+
+.closed {
+  display: none;
+}
+.open {
+  display: block;
 }
