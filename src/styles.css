@@ -19,7 +19,9 @@ variable in it if necessary
 
 body {
   background-color: var(--background-general-color);
-
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 100px 1fr;
 }
 
 /* header styles
@@ -29,6 +31,8 @@ body {
   display: flex;
   align-items: center;
   height: 100px;
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
 }
 
 .icon img {
@@ -46,6 +50,11 @@ body {
 
 /* side bar styles
 */
+
+.sideBar {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
 
 .createButton {
   background-color: var(--background-elements);
@@ -65,4 +74,38 @@ body {
   font-size: 1.2rem;
   margin: 10px;
   padding-left: 20px;
+  overflow: auto;
+}
+
+/* side bar project buttons style;
+*/
+
+.projButton {
+  background-color: var(--background-elements);
+  color: var(--background-general-textColor);
+  display: block;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  padding: 5px 10px 5px 0px;
+  border: 1px solid var(--background-elements);
+  border-radius: 6px;
+}
+.projButton:hover {
+  filter: brightness(150%);
+}
+
+/*main styles;
+*/
+
+.projectBoardContainer {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+/*project board styles;
+*/
+
+.projectBoard{
+  background-color: #131314;
+  color: var(--background-general-textColor);
 }
