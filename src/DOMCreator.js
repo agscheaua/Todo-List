@@ -14,6 +14,7 @@ function createWebpage() {
   createProject();
   projectsContainer;
   displayProjectBoard();
+  createTodo();
 };
  
 // gets all the elements created in the html template documnent;
@@ -117,7 +118,7 @@ function createProjectBoard() {
 
       const addTodoToBoard = document.createElement("button");
       projectBoard.appendChild(addTodoToBoard);
-      addTodoToBoard.classList.add(`addTodo${eve.target.textContent}`);
+      addTodoToBoard.classList.add(`addTodo${eve.target.textContent}`, `addTodoButton`);
       addTodoToBoard.textContent = "Add a todo";
     }
     else {
@@ -168,7 +169,21 @@ function displayProjectBoard() {
   });
 };
 
+function createTodo() {
+  getStaticElements.projectBoardContainer.addEventListener("click", (eve) => {
+    const projectBoard = document.querySelector(".projectBoard");
+    if (eve.target.nodeName === "BUTTON") {
+      const test1 = document.createElement("div");
+      projectBoard.appendChild(test1);
+      let testText = prompt("Name?");
+      test1.textContent = testText;
+    }
+    else {
 
+    };
+  });
+
+};
 
 
 
