@@ -14,7 +14,7 @@ function createWebpage() {
   createProject();
   projectsContainer;
   displayProjectBoard();
-  createTodo();
+  showModalTodo();
 };
  
 // gets all the elements created in the html template documnent;
@@ -28,10 +28,15 @@ const getStaticElements = (function() {
   const sideBar = document.querySelector(".sideBar");
   const projectsContainer = document.querySelector(".projectsContainer");
   const projectBoardContainer = document.querySelector(".projectBoardContainer");
+  const modalTodo = document.querySelector(".modalTodo");
+  const submitTodo = document.querySelector(".submitTodo");
+  const cancelTodo = document.querySelector(".cancelTodo");
+  const todoTitleInput = document.querySelector("#todoTitleInput");
 
   return {createButton, modalContainer, inputSpace,
     submitModal, cancelModal, sideBar, projectsContainer,
-    projectBoardContainer,};
+    projectBoardContainer, modalTodo, submitTodo,
+    cancelTodo, todoTitleInput, };
 }) ();
 
 // object that contains all the object dynamically created;
@@ -169,21 +174,47 @@ function displayProjectBoard() {
   });
 };
 
-function createTodo() {
-  getStaticElements.projectBoardContainer.addEventListener("click", (eve) => {
-    const projectBoard = document.querySelector(".projectBoard");
-    if (eve.target.nodeName === "BUTTON") {
-      const test1 = document.createElement("div");
-      projectBoard.appendChild(test1);
-      let testText = prompt("Name?");
-      test1.textContent = testText;
-    }
-    else {
+//show the modal with all the inputs that can be writen for the todo item 
 
+function showModalTodo() { 
+  getStaticElements.projectBoardContainer.addEventListener("click", (eve) => {
+    if (eve.target.nodeName === "BUTTON") {
+      getStaticElements.modalTodo.showModal();
+      const getAllInputs = document.querySelectorAll(".todoInput");
+      for (const elem of getAllInputs) {
+        elem.value = "";
+      };
+    }
+    else {};
+  });
+
+  getStaticElements.submitTodo.addEventListener("click", (eve) => {
+    eve.preventDefault();
+    if (getStaticElements.todoTitleInput.value === "") {}
+    else {
+      getStaticElements.modalTodo.close();
     };
   });
 
+  getStaticElements.cancelTodo.addEventListener("click", (eve) => {
+    eve.preventDefault();
+    getStaticElements.modalTodo.close();
+  });
 };
+
+//
+
+function createTodoInBoard() {
+  getStaticElements.submitTodo.addEventListener("click", (eve) => {
+    eve.preventDefault();
+    
+    const todoContainer = document.createElement("div");
+    todoContainer.classList.add("todoContainer");
+
+  })
+}
+
+
 
 
 

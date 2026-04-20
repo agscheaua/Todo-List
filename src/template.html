@@ -35,5 +35,32 @@
       </div>
     </form>
   </dialog>
+  <dialog class="modalTodo">
+    <form action="" method="" class="formTodo">
+      <div class="todoForm">Add a new to do:</div>
+      <div class="todoTitle">
+        <input id="todoTitleInput" class="todoInput" type="text" name="todo_title" placeholder="title" required>
+      </div>
+      <div class="todoDescription">
+        <input id="todoDescriptionInput" class="todoInput" type="text" name="todo_description" placeholder="description">
+      </div>
+      <div class="todoTime">
+        <input id="startTodo" type="text" class="todoInput" name="start_todo" placeholder="strat date ex. 00/00/0000">
+        <input id="endTodo" type="text" class="todoInput" name="end_todo" placeholder="end date ex. 00/00/0000">
+      </div>
+      <div class="priorityTodo">
+        <select id="priorityTodoInput" name="priority_todo">
+          <option value="">Priority level</option>
+          <option value="">Normal</option>
+          <option value="">Moderate</option>
+          <option value="">Important</option>
+        </select>
+      </div>
+      <div class="todoModalControl">
+        <button type="submit" class="submitTodo">Submit</button>
+        <button type="submit" class="cancelTodo">Cancel<button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>
