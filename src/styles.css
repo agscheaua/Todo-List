@@ -118,12 +118,7 @@ body {
 .projectBoard > * {
   margin-top: 15px;
   color: var(--background-general-textColor);
-  font-size: 1.2rem;
-}
-
-.projectBoard :first-child {
   font-size: 1.5rem;
-  margin: 0px;
 }
 
 .projectBoard > button {
@@ -132,6 +127,7 @@ body {
   border: 1px solid var(--background-elements);
   border-radius: 6px;
   padding: 5px 0px;
+  font-size: 1.5rem;
 }
 
 .closed {
@@ -139,4 +135,38 @@ body {
 }
 .open {
   display: block;
+}
+
+/* todo container styles
+*/
+
+.todoContainer > * {
+  margin-top: 2px; 
+  overflow: hidden;
+  font-size: 1.5rem;
+}
+.todoContainer:hover {
+  border-radius: 6px;
+}
+
+.todoContainer button {
+  background-color: var(--background-general-color);
+  color: var(--background-general-textColor);
+  border: 1px solid var(--background-elements);
+  border-radius: 6px;
+  padding: 5px 0px;
+  font-size: 1.5rem;
+}
+.todoContainer button:hover{
+  cursor: pointer;
+  
+}
+
+.startDateBoard {
+  margin-right: 10px;
+}
+
+.deleteTodo,
+.doneUndoneTodo {
+  margin-left: 10px;
 }

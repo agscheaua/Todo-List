@@ -15,6 +15,7 @@ function createWebpage() {
   projectsContainer;
   displayProjectBoard();
   showModalTodo();
+  createTodoInBoard();
 };
  
 // gets all the elements created in the html template documnent;
@@ -32,11 +33,17 @@ const getStaticElements = (function() {
   const submitTodo = document.querySelector(".submitTodo");
   const cancelTodo = document.querySelector(".cancelTodo");
   const todoTitleInput = document.querySelector("#todoTitleInput");
+  const todoDescriptionInput = document.querySelector("#todoDescriptionInput");
+  const startTodo = document.querySelector("#startTodo");
+  const endTodo = document.querySelector("#endTodo");
+  const priorityTodoInput = document.querySelector("#priorityTodoInput");
+  const todoModalControl = document.querySelector(".todoModalControl");
 
   return {createButton, modalContainer, inputSpace,
     submitModal, cancelModal, sideBar, projectsContainer,
     projectBoardContainer, modalTodo, submitTodo,
-    cancelTodo, todoTitleInput, };
+    cancelTodo, todoTitleInput, todoDescriptionInput,
+    startTodo, endTodo, priorityTodoInput, todoModalControl};
 }) ();
 
 // object that contains all the object dynamically created;
@@ -178,9 +185,12 @@ function displayProjectBoard() {
 
 function showModalTodo() { 
   getStaticElements.projectBoardContainer.addEventListener("click", (eve) => {
-    if (eve.target.nodeName === "BUTTON") {
+    if (eve.target.classList.contains("addTodoButton")) {
       getStaticElements.modalTodo.showModal();
+
       const getAllInputs = document.querySelectorAll(".todoInput");
+      getStaticElements.priorityTodoInput.selectedIndex = 0;
+
       for (const elem of getAllInputs) {
         elem.value = "";
       };
@@ -202,19 +212,82 @@ function showModalTodo() {
   });
 };
 
-//
+// function to dynamicaly create the todo container when we press submit
 
 function createTodoInBoard() {
   getStaticElements.submitTodo.addEventListener("click", (eve) => {
     eve.preventDefault();
     
+    const projectBoard = document.querySelector(".open");
+
     const todoContainer = document.createElement("div");
     todoContainer.classList.add("todoContainer");
+    projectBoard.appendChild(todoContainer);
 
-  })
-}
+      const todoTitleBoard = document.createElement("div");
+      todoTitleBoard.classList.add("todoTitleBoard");
+      todoContainer.appendChild(todoTitleBoard); 
+      todoTitleBoard.textContent = getStaticElements.todoTitleInput.value;
 
+      const todoDescriptionBoard = document.createElement("div");
+      todoDescriptionBoard.classList.add("todoDescriptionBoard");
+      todoContainer.appendChild(todoDescriptionBoard);
+      todoDescriptionBoard.textContent = getStaticElements.todoDescriptionInput.value;
 
+      const todoTimeBoard = document.createElement("div");
+      todoTimeBoard.classList.add("todoTimeBoard");
+      todoContainer.appendChild(todoTimeBoard);
+
+        const startDateBoard = document.createElement("span");
+        startDateBoard.classList.add("startDateBoard");
+        todoTimeBoard.appendChild(startDateBoard);
+        if (getStaticElements.startTodo.value === "") {
+          startDateBoard.textContent = "";
+        }
+        else {
+          startDateBoard.textContent = "Start: " + getStaticElements.startTodo.value;
+        };
+
+        const endDateBoard = document.createElement("span");
+        endDateBoard.classList.add("endDateBoard");
+        todoTimeBoard.appendChild(endDateBoard);
+        if (getStaticElements.endTodo.value === "") {
+          endDateBoard.textContent = "";
+        }
+        else {
+          endDateBoard.textContent = "End: " + getStaticElements.endTodo.value;
+        };
+
+      const priorityBoard = document.createElement("div");
+      priorityBoard.classList.add("priorityBoard");
+      todoContainer.appendChild(priorityBoard);
+      if (getStaticElements.priorityTodoInput.options[getStaticElements.priorityTodoInput.selectedIndex].text === "Priority level") {
+        priorityBoard.textContent = "";
+      }
+      else {
+        priorityBoard.textContent = getStaticElements.priorityTodoInput.options[getStaticElements.priorityTodoInput.selectedIndex].text;
+      };
+      
+      const todoControlButtons = document.createElement("div");
+      todoControlButtons.classList.add("todoControlButtons");
+      todoContainer.appendChild(todoControlButtons);
+
+        const editTodo = document.createElement("button");
+        editTodo.classList.add("editTodo");
+        todoControlButtons.appendChild(editTodo);
+        editTodo.textContent = "Edit todo";
+
+        const deleteTodo = document.createElement("button");
+        deleteTodo.classList.add("deleteTodo");
+        todoControlButtons.appendChild(deleteTodo);
+        deleteTodo.textContent = "Delete todo";
+
+        const doneUndoneTodo = document.createElement("button");
+        doneUndoneTodo.classList.add("doneUndoneTodo");
+        todoControlButtons.appendChild(doneUndoneTodo);
+        doneUndoneTodo.textContent = "Done"; 
+  });
+};
 
 
 
