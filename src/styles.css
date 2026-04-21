@@ -147,6 +147,7 @@ body {
 }
 .todoContainer:hover {
   border-radius: 6px;
+  background-color: var(--background-elements);
 }
 
 .todoContainer button {

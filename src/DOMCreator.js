@@ -16,6 +16,7 @@ function createWebpage() {
   displayProjectBoard();
   showModalTodo();
   createTodoInBoard();
+  editTodo();
 };
  
 // gets all the elements created in the html template documnent;
@@ -214,6 +215,7 @@ function showModalTodo() {
 
 // function to dynamicaly create the todo container when we press submit
 
+let structureBoard = false;
 function createTodoInBoard() {
   getStaticElements.submitTodo.addEventListener("click", (eve) => {
     eve.preventDefault();
@@ -286,9 +288,23 @@ function createTodoInBoard() {
         doneUndoneTodo.classList.add("doneUndoneTodo");
         todoControlButtons.appendChild(doneUndoneTodo);
         doneUndoneTodo.textContent = "Done"; 
+
+    structureBoard = true;
   });
 };
 
+function editTodo() {
+  getStaticElements.projectBoardContainer.addEventListener("click", (eve) => {
+    if (eve.target.classList.contains("editTodo")) {
+      const dynamicTodoContainer = eve.target.parentNode.parentNode;
+
+      getStaticElements.modalTodo.showModal();
+    }
+    else {
+
+    };
+  });
+};
 
 
 createWebpage(); 
