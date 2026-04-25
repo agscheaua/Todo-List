@@ -1,6 +1,15 @@
 import {compareAsc, format} from "date-fns";
+import {getStaticElements} from "./getAllTheStaticElementsDOM.js";
+
 export {ProjectsCreator};
-import {getStaticElements} from "./DOMCreator.js";
+
+// object that contains all the object dynamically created;
+
+const projectsContainer = (function() {
+  return {};
+}) ();
+
+// class to create instances of ProjectCreator
 
 class ProjectsCreator {
   constructor(projectName) {
@@ -21,3 +30,20 @@ class TodosCreator {
   endDate;
   priority;
 }; 
+
+// function to create an object for each project button created;
+
+function createProject() {
+  getStaticElements.submitModal.addEventListener("click", () => {
+    if (getStaticElements.projectsContainer.lastElementChild) {
+      const lastChildElem = getStaticElements.projectsContainer.lastElementChild;
+      const project = new ProjectsCreator(lastChildElem.textContent);
+      projectsContainer[`${lastChildElem.textContent}`] = project;
+      projectsContainer[`${lastChildElem.textContent}`].createTodo();
+      console.log(projectsContainer);
+    }
+    else{
+      console.log("no child"); 
+    };
+  });
+};
