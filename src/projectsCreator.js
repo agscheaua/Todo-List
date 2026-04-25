@@ -1,7 +1,7 @@
-import {compareAsc, format} from "date-fns";
 import {getStaticElements} from "./getAllTheStaticElementsDOM.js";
 
-export {ProjectsCreator};
+export {createProject};
+export {projectsContainer};
 
 // object that contains all the object dynamically created;
 
@@ -28,7 +28,6 @@ class TodosCreator {
   description; 
   startDate;
   endDate;
-  priority;
 }; 
 
 // function to create an object for each project button created;
@@ -39,7 +38,6 @@ function createProject() {
       const lastChildElem = getStaticElements.projectsContainer.lastElementChild;
       const project = new ProjectsCreator(lastChildElem.textContent);
       projectsContainer[`${lastChildElem.textContent}`] = project;
-      projectsContainer[`${lastChildElem.textContent}`].createTodo();
       console.log(projectsContainer);
     }
     else{

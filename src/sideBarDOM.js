@@ -8,9 +8,8 @@ export {createSideBar};
 function createSideBar() {
   showModalProject();
   createButtonProject();
-  createProjectBoard();
-  displayProjectBoard();
-};
+  showHideProjectBoard();
+};  
 
 // shows the modal where you will input the name of your project; 
 
@@ -18,14 +17,6 @@ function showModalProject() {
   getStaticElements.createButton.addEventListener("click", (eve) => {
     getStaticElements.modalContainer.showModal();
     getStaticElements.inputSpace.value = "";
-  }); 
-
-  getStaticElements.submitModal.addEventListener("click", (eve) => {
-    eve.preventDefault();
-    if (getStaticElements.inputSpace.value === "") {}
-    else{
-      getStaticElements.modalContainer.close();
-    };
   }); 
 
   getStaticElements.cancelModal.addEventListener("click", (eve) => {
@@ -39,87 +30,67 @@ function showModalProject() {
 let projectsNr = 0;
 function createButtonProject() {
   getStaticElements.submitModal.addEventListener("click", (eve) => {
-    if (getStaticElements.inputSpace.value === "") {
-      console.log("empty");
+    eve.preventDefault();
+
+    let nameRepeat = false;
+    const allProjButtons = document.querySelectorAll(".projButton");
+    for (const elem of allProjButtons) {
+      if (elem.textContent === getStaticElements.inputSpace.value) {
+        nameRepeat = true;
+      }
+      else{};
+    }
+
+    if (getStaticElements.inputSpace.value === "" || !(nameRepeat === false)) {
+      console.log("empty input or the name is alredy used");
     } 
     else {
       const projectButton = document.createElement("button");
-      projectButton.classList.add("projectButton" + projectsNr, "projButton");
+      projectButton.classList.add("projectButton" + projectsNr, "projButton", "hidden");
       projectsNr++;
       getStaticElements.projectsContainer.appendChild(projectButton);
       projectButton.textContent = getStaticElements.inputSpace.value;
     };
-  });
-};
 
-// function to create a board that will contain all information about
-// the project;
-
-function createProjectBoard() {
-  getStaticElements.projectsContainer.addEventListener("click", (eve) => {
-    if (eve.target.classList.contains("hasBoard") || eve.target.nodeName !== "BUTTON") {
-      console.log("SOMETHING IS WRONG");
-    }
-    else if (!(eve.target.classList.contains("hasBoard")) && eve.target.nodeName === "BUTTON") {
-      eve.target.classList.add("hasBoard");
-
-      const projectBoard = document.createElement("div");
-      getStaticElements.projectBoardContainer.appendChild(projectBoard);
-      projectBoard.classList.add(`board${eve.target.textContent}`, "projectBoard", "closed");
-     
-      const projectBoardTitle = document.createElement("div");
-      projectBoard.appendChild(projectBoardTitle);
-      projectBoardTitle.classList.add(`projectBoardTitle${eve.target.textContent}`);
-      projectBoardTitle.textContent = eve.target.textContent;
-
-      const addTodoToBoard = document.createElement("button");
-      projectBoard.appendChild(addTodoToBoard);
-      addTodoToBoard.classList.add(`addTodo${eve.target.textContent}`, `addTodoButton`);
-      addTodoToBoard.textContent = "Add a todo";
-    }
-    else {
-      console.log("SOMETHING IS WRONG");
-    }; 
+    getStaticElements.modalContainer.close();
   });
 };
 
 // hide or show the board of each project button when you press click on it;
 
-function displayProjectBoard() {
+function showHideProjectBoard() {
   getStaticElements.projectsContainer.addEventListener("click", (eve) => {
-    const getAllProjectBoards = document.querySelectorAll(".projectBoard");
-    const dynamicProjectBoard = document.querySelector(`.board` +`${eve.target.textContent}`);
-    
-    if (eve.target.classList.contains("hasBoard") &&
-      eve.target.nodeName === "BUTTON" &&
-      dynamicProjectBoard.classList.contains("closed")) {
+    const allButtonsProj = document.querySelectorAll(".projButton");
+    const currentButtonProj = eve.target;
 
-      dynamicProjectBoard.classList.remove("closed");
-      dynamicProjectBoard.classList.add("open");
-      closeAllBoards();
-    }
-    else if (eve.target.classList.contains("hasBoard") &&
-      eve.target.nodeName === "BUTTON" &&
-      dynamicProjectBoard.classList.contains("open")) {
-
-      dynamicProjectBoard.classList.remove("open");
-      dynamicProjectBoard.classList.add("closed");
-      closeAllBoards();
-    }
-    else {
-    };
-    console.log(getAllProjectBoards);
-
-    function closeAllBoards() {
-      getAllProjectBoards.forEach( (elem) => {
-        if (elem === dynamicProjectBoard) {
-          console.log("no");
-        }
+    function hideAllButtons() {
+      for (const elem of allButtonsProj) {
+        if (elem === currentButtonProj) {}
         else {
-          elem.classList.remove("open");
-          elem.classList.add("closed");
+          elem.classList.add("hidden");
+          elem.classList.remove("show");
         };
-      });
+      };
     };
+
+    if (eve.target.nodeName === "BUTTON" &&
+      eve.target.classList.contains("hidden")
+    ) {
+      eve.target.classList.add("show");
+      eve.target.classList.remove("hidden")
+      getStaticElements.projectBoard.classList.add("open");
+      getStaticElements.projectBoard.classList.remove("closed");
+      hideAllButtons();
+    }
+    else if (eve.target.nodeName === "BUTTON" &&
+      eve.target.classList.contains("show")
+    ) {
+      eve.target.classList.add("hidden");
+      eve.target.classList.remove("show");
+      getStaticElements.projectBoard.classList.add("closed");
+      getStaticElements.projectBoard.classList.remove("open");   
+      hideAllButtons();
+    }
+    else{};
   });
 };

@@ -12,6 +12,9 @@ const getStaticElements = (function() {
   const sideBar = document.querySelector(".sideBar");
   const projectsContainer = document.querySelector(".projectsContainer");
   const projectBoardContainer = document.querySelector(".projectBoardContainer");
+  const projectBoard = document.querySelector(".projectBoard");
+  const projectTitle = document.querySelector(".projectBoard");
+  const addTodo = document.querySelector(".addTodo");
   const modalTodo = document.querySelector(".modalTodo");
   const submitTodo = document.querySelector(".submitTodo");
   const cancelTodo = document.querySelector(".cancelTodo");
@@ -24,7 +27,8 @@ const getStaticElements = (function() {
 
   return {createButton, modalContainer, inputSpace,
     submitModal, cancelModal, sideBar, projectsContainer,
-    projectBoardContainer, modalTodo, submitTodo,
-    cancelTodo, todoTitleInput, todoDescriptionInput,
-    startTodo, endTodo, priorityTodoInput, todoModalControl};
+    projectBoardContainer, projectBoard, projectTitle,
+    addTodo, modalTodo, submitTodo, cancelTodo, todoTitleInput,
+    todoDescriptionInput, startTodo, endTodo, priorityTodoInput, todoModalControl,
+  };
 }) ();

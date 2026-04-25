@@ -22,6 +22,22 @@
     </div>
   </aside>
   <main class="projectBoardContainer">
+    <div class="projectBoard closed">
+      <div class="projectTitle"></div>
+      <button class="addTodo">Add a todo</button>
+      <div class="todoContainer todo">
+        <div class="todoTitleBoard"></div>
+        <div class="todoDescriptionBoard"></div>
+        <div class="todoTimeBoard">
+          <span class="startDateBoard"></span>
+          <span class="endDateBoard"></span>
+        </div>
+        <div class="todoControlButtons">
+          <button class="editTodo"></button>
+          <button class="deleteTodo"></button>
+        </div>
+      </div>
+    </div>
   </main>
   <dialog class="modalContainer">
     <form action="" method="">
@@ -47,14 +63,6 @@
       <div class="todoTime">
         <input id="startTodo" type="text" class="todoInput" name="start_todo" placeholder="strat date ex. 00/00/0000">
         <input id="endTodo" type="text" class="todoInput" name="end_todo" placeholder="end date ex. 00/00/0000">
-      </div>
-      <div class="priorityTodo">
-        <select id="priorityTodoInput" name="priority_todo">
-          <option value="" selected>Priority level</option>
-          <option value="">Normal</option>
-          <option value="">Moderate</option>
-          <option value="">Important</option>
-        </select>
       </div>
       <div class="todoModalControl">
         <button type="submit" class="submitTodo">Submit</button>
