@@ -1,5 +1,6 @@
 import path from "node:path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import { watchFile } from "node:fs";
 
 export default {
   entry: "./src/index.js",
@@ -8,14 +9,14 @@ export default {
     path: path.resolve(import.meta.dirname, "dist"),
     clean: true,
   },
-  devServer: {
-    watchFiles: ["./src/template.html"],
-  },
   plugins: [
     new HtmlWebpackPlugin ({
       template: "./src/template.html",
     }),
   ],
+  devServer: {
+    watchFiles: ["./src/template.html"]
+  },
   module: {
     rules: [
       {
@@ -27,9 +28,10 @@ export default {
         use: ["html-loader"],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|avif|)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|avif)$/i,
         type: "asset/resource",
       },
     ],
   },
 };
+ 

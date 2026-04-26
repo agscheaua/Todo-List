@@ -1,4 +1,4 @@
-import { optimize } from "webpack";
+
 import {getStaticElements} from "./getAllTheStaticElementsDOM.js";
 import {projectsContainer} from"./projectsCreator.js"
 
@@ -33,7 +33,5 @@ function showModalTodo() {
 };
 
 //give the board title based on with project is currently open;
-
-
 // function to dynamicaly create the todo container when we press submit
 
