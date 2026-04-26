@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+</head>
+<body>
+  <header class="header"> 
+    <div class="icon">
+      <img src="../images/icon.svg" alt="icon image check">
+    </div>
+    <div class="titleBox">
+      <div class="title">Todo List</div>
+    </div>
+  </header>
+  <aside class="sideBar">
+    <div class="createButtonContainer">
+      <button class="createButton" type="button">Create Project</button>
+    </div>
+    <div class="projectsContainer">Projects:
+    </div>
+  </aside>
+  <main class="projectBoardContainer">
+    <div class="projectBoard closed">
+      <div class="projectTitle"></div>
+      <button class="addTodo">Add a todo</button>
+      <div class="todoContainer todo">
+        <div class="todoTitleBoard"></div>
+        <div class="todoDescriptionBoard"></div>
+        <div class="todoTimeBoard">
+          <span class="startDateBoard"></span>
+          <span class="endDateBoard"></span>
+        </div>
+        <div class="todoControlButtons">
+          <button class="editTodo"></button>
+          <button class="deleteTodo"></button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <dialog class="modalContainer">
+    <form action="" method="">
+      <div class="modalText">Create new project</div>
+      <div class="inputModal">
+        <input type="text" id="inputSpace" name="project_name">
+      </div>
+      <div class="modalControls">
+        <button type="submit" class="submitModal">Submit</button>
+        <button type="submit" class="cancelModal">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog class="modalTodo">
+    <form action="" method="" class="formTodo">
+      <div class="todoForm">Add a new to do:</div>
+      <div class="todoTitle">
+        <input id="todoTitleInput" class="todoInput" type="text" name="todo_title" placeholder="title" required>
+      </div>
+      <div class="todoDescription">
+        <input id="todoDescriptionInput" class="todoInput" type="text" name="todo_description" placeholder="description">
+      </div>
+      <div class="todoTime">
+        <input id="startTodo" type="text" class="todoInput" name="start_todo" placeholder="strat date ex. 00/00/0000">
+        <input id="endTodo" type="text" class="todoInput" name="end_todo" placeholder="end date ex. 00/00/0000">
+      </div>
+      <div class="todoModalControl">
+        <button type="submit" class="submitTodo">Submit</button>
+        <button type="submit" class="cancelTodo">Cancel<button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
