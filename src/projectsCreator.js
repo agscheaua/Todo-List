@@ -15,10 +15,10 @@ class ProjectsCreator {
   constructor(projectName) {
     this.projectName = projectName;
   }
-  #todoNr = 0;
+  todoNr = 0;
   createTodo() {
-    this[`todo` + `${this.#todoNr}`] = new TodosCreator;
-    this.#todoNr++;
+    this[`todo` + `${this.todoNr}`] = new TodosCreator;
+    this.todoNr++;
   }
 };
 
