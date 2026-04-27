@@ -11,6 +11,7 @@ function createBoard() {
   showModalTodo();
   giveBoardTitle();
   writeInTodoContainer();
+  displayTodo();
 };
  
 //show the todo modal with all the inputs that can be writen for the todo item 
@@ -53,14 +54,65 @@ function giveBoardTitle() {
 function writeInTodoContainer() {
   getStaticElements.submitTodo.addEventListener("click", (eve) => {
     eve.preventDefault();
+
     const currentObjName = getStaticElements.projectTitle.textContent;
     projectsContainer[currentObjName].createTodo();
     console.log(projectsContainer[currentObjName]);
-    createTodoContainer();
+    
+    const currentTodoNr = (projectsContainer[currentObjName].todoNr) - 1;
+    
+    const currentTodo = projectsContainer[currentObjName]["todo" + currentTodoNr];
+
+    currentTodo.task = getStaticElements.todoTitleInput.value;
+    currentTodo.description = getStaticElements.todoDescriptionInput.value;
+    currentTodo.startDate = getStaticElements.startTodo.value;
+    currentTodo.endDate = getStaticElements.endTodo.value;    
+
+    const createStructure = createTodoContainer();
+
+    createStructure.todoContainer.classList.add("todo"+currentTodoNr);
+    createStructure.todoTitleBoard.textContent = currentTodo.task;
+    createStructure.todoDescriptionBoard.textContent = currentTodo.description;
+    createStructure.startDateBoard.textContent = currentTodo.startDate;
+    createStructure.endDateBoard.textContent = currentTodo.endDate; 
   });
 };
 
-const createTodoContainer = function() {
+function displayTodo() {
+  getStaticElements.projectsContainer.addEventListener("click", (eve) => {
+    if (eve.target.nodeName === "BUTTON") {
+      const todoContainer = document.querySelectorAll(".todoContainer");
+      for (const elem of todoContainer) {
+        elem.remove();
+      };
+    }
+    else {};
+
+    let currentObj;
+    if (eve.target.nodeName === "BUTTON") {
+      currentObj = eve.target.textContent;
+
+      let currentTodoNr = 0;
+      for (let i = 0; i < (projectsContainer[currentObj].todoNr); i++) {
+    
+      const currentTodo = projectsContainer[currentObj]["todo" + currentTodoNr];
+
+      const createStructure = createTodoContainer();
+
+      createStructure.todoContainer.classList.add("todo"+currentTodoNr);
+      createStructure.todoTitleBoard.textContent = currentTodo.task;
+      createStructure.todoDescriptionBoard.textContent = currentTodo.description;
+      createStructure.startDateBoard.textContent = currentTodo.startDate;
+      createStructure.endDateBoard.textContent = currentTodo.endDate; 
+
+      currentTodoNr++;
+      };
+    }
+    else {};
+  });
+};
+
+function createTodoContainer() {
   const todoContainer = document.createElement("div");
   todoContainer.classList.add("todoContainer");
   getStaticElements.projectBoard.appendChild(todoContainer);
@@ -91,14 +143,16 @@ const createTodoContainer = function() {
 
       const editTodo = document.createElement("button");
       editTodo.classList.add("editTodo");
+      editTodo.textContent = "Edit";
       todoControlButtons.appendChild(editTodo);
 
       const deleteTodo = document.createElement("button");
       deleteTodo.classList.add("deleteTodo");
+      deleteTodo.textContent = "Delete";
       todoControlButtons.appendChild(deleteTodo);
 
   return {
     todoContainer, todoTimeBoard, todoDescriptionBoard, todoTimeBoard, startDateBoard,
-    endDateBoard, todoControlButtons, editTodo, deleteTodo,
+    endDateBoard, todoControlButtons, editTodo, deleteTodo, todoTitleBoard,
   };
 };
