@@ -12,6 +12,7 @@ function createBoard() {
   giveBoardTitle();
   writeInTodoContainer();
   displayTodo();
+  editTodoFunc();
 };
  
 //show the todo modal with all the inputs that can be writen for the todo item 
@@ -78,6 +79,8 @@ function writeInTodoContainer() {
   });
 };
 
+// function to display the todos that are linked to the project selected
+
 function displayTodo() {
   getStaticElements.projectsContainer.addEventListener("click", (eve) => {
     if (eve.target.nodeName === "BUTTON") {
@@ -111,6 +114,8 @@ function displayTodo() {
     else {};
   });
 };
+
+// function to create the structure of the todo and returns its elements
 
 function createTodoContainer() {
   const todoContainer = document.createElement("div");
@@ -155,4 +160,28 @@ function createTodoContainer() {
     todoContainer, todoTimeBoard, todoDescriptionBoard, todoTimeBoard, startDateBoard,
     endDateBoard, todoControlButtons, editTodo, deleteTodo, todoTitleBoard,
   };
+};
+
+// function to edit the todos and submit the changes
+
+function editTodoFunc() {
+  getStaticElements.projectBoard.addEventListener("click", (eve) => {
+    eve.preventDefault();
+
+    if (eve.target.classList.contains("editTodo")) {
+      getStaticElements.modalTodo.showModal();
+      
+      const parentTodoContainer = eve.target.parentElement.parentElement.classList[1];
+      const titleChild = document.querySelector(`.${parentTodoContainer}` + " .todoTitleBoard");
+      const descriptionChild = document.querySelector(`.${parentTodoContainer}` + " .todoDescriptionBoard");
+
+      getStaticElements.todoTitleInput.textContent = titleChild.textContent;
+      getStaticElements.todoDescriptionInput.textContent = descriptionChild.textContent;
+
+
+      console.log(titleChild);
+      console.log(parentTodoContainer);
+    }
+    else{};
+  });
 };
