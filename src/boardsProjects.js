@@ -12,7 +12,9 @@ function createBoard() {
   giveBoardTitle();
   writeInTodoContainer();
   displayTodo();
-  editTodoFunc();
+  openEditModal();
+  submitEditsTodo();
+  deleteTodoFunc();
 };
  
 //show the todo modal with all the inputs that can be writen for the todo item
@@ -66,7 +68,6 @@ function writeInTodoContainer() {
     else {
       const currentObjName = getStaticElements.projectTitle.textContent;
       projectsContainer[currentObjName].createTodo();
-      console.log(projectsContainer[currentObjName]);
     
       const currentTodoNr = (projectsContainer[currentObjName].todoNr) - 1;
     
@@ -84,7 +85,10 @@ function writeInTodoContainer() {
       createStructure.todoDescriptionBoard.textContent = currentTodo.description;
       createStructure.startDateBoard.textContent = currentTodo.startDate;
       createStructure.endDateBoard.textContent = currentTodo.endDate; 
-      console.log(editOpen);
+
+      getStaticElements.modalTodo.close();
+
+      console.log(projectsContainer[currentObjName]);
     };
   });
 };
@@ -172,16 +176,18 @@ function createTodoContainer() {
   };
 };
 
-// function to edit the todos and submit the changes, i chose to place it here so that
-// the event will fire before the one one that subit NEW todos and to stop it from 
-// propagation;
+// function to open the modal and edit the content of the specific todo that you 
+// have press the edit button in;
 
-function editTodoFunc() {
+let currentEditedTodo;
+
+function openEditModal() {
   getStaticElements.projectBoard.addEventListener("click", (eve) => {
     eve.preventDefault();
     if (eve.target.classList.contains("editTodo")) {
-
       const parentTodoContainer = eve.target.parentElement.parentElement.classList[1];
+
+      currentEditedTodo = parentTodoContainer;
 
       const titleChild = document.querySelector(`.${parentTodoContainer}` + " .todoTitleBoard");
       const descriptionChild = document.querySelector(`.${parentTodoContainer}` + " .todoDescriptionBoard");
@@ -196,31 +202,83 @@ function editTodoFunc() {
       getStaticElements.modalTodo.showModal();
 
       editOpen = true;
-
-       getStaticElements.todoModalControl.addEventListener("click", (eve) => {
-        if (eve.target.classList.contains("submitTodo") &&
-        editOpen === true) {
-
-          titleChild.textContent = getStaticElements.todoTitleInput.value;
-          descriptionChild.textContent = getStaticElements.todoDescriptionInput.value;
-          startDateChild.textContent = getStaticElements.startTodo.value;
-          endDateChild.textContent = getStaticElements.endTodo.value;
-
-          const currentProjObjName = getStaticElements.projectTitle.textContent;
-          
-          projectsContainer[currentProjObjName][parentTodoContainer].task =  titleChild.textContent;
-          projectsContainer[currentProjObjName][parentTodoContainer].description = descriptionChild.textContent;
-          projectsContainer[currentProjObjName][parentTodoContainer].startDate = startDateChild.textContent;
-          projectsContainer[currentProjObjName][parentTodoContainer].endDate = endDateChild.textContent;
-
-
-          console.log(titleChild, descriptionChild, startDateChild, endDateChild);
-        }
-    else {};
-  });
-
     }
     else{};
   });
 };
 
+// check to see if the edit button was pressed and submit the changes to the displayed
+// todo;
+
+function submitEditsTodo() {
+  getStaticElements.submitTodo.addEventListener("click", (eve) => {
+    if (editOpen === true) {
+      const getTodoEdited = document.querySelector(`.${currentEditedTodo}`);
+
+      const titleChild = document.querySelector(`.${currentEditedTodo}` + " .todoTitleBoard");
+      const descriptionChild = document.querySelector(`.${currentEditedTodo}` + " .todoDescriptionBoard");
+      const startDateChild = document.querySelector(`.${currentEditedTodo}` + " .startDateBoard");
+      const endDateChild = document.querySelector(`.${currentEditedTodo}` + " .endDateBoard");
+
+      titleChild.textContent = getStaticElements.todoTitleInput.value;
+      descriptionChild.textContent = getStaticElements.todoDescriptionInput.value;
+      startDateChild.textContent = getStaticElements.startTodo.value;
+      endDateChild.textContent = getStaticElements.endTodo.value;
+
+      const getEditedObj = getStaticElements.projectTitle.textContent;
+
+      const getEditedTodoInObj = projectsContainer[getEditedObj][currentEditedTodo];
+      getEditedTodoInObj.task = titleChild.textContent
+      getEditedTodoInObj.description = descriptionChild.textContent;
+      getEditedTodoInObj.startDate = startDateChild.textContent;
+      getEditedTodoInObj.endDate = endDateChild.textContent;
+
+      console.log(projectsContainer[getEditedObj]);
+    }
+    else {};
+  });
+};
+
+let deletedTodos = 0;
+function deleteTodoFunc() {
+  getStaticElements.projectBoard.addEventListener("click", (eve) => {
+    eve.preventDefault();
+    if (eve.target.classList.contains("deleteTodo")) {
+      const parentElementTodo = eve.target.parentElement.parentElement;
+      const getCurrentlyObj = getStaticElements.projectTitle.textContent;
+
+      const initialTodoNr = (projectsContainer[getCurrentlyObj].todoNr) -1 ;
+
+      const deletedTodo = parentElementTodo.classList[1];
+      let deletedTodoNr = Number(deletedTodo.slice(-1));
+
+      let nrOfdeletedTodo = deletedTodoNr;
+
+      parentElementTodo.remove();
+      delete projectsContainer[getCurrentlyObj][parentElementTodo.classList[1]];
+
+      projectsContainer[getCurrentlyObj]["todoNr"] -= 1;
+
+      deletedTodos++
+
+      console.log(nrOfdeletedTodo, initialTodoNr);
+
+      if (nrOfdeletedTodo === initialTodoNr) {
+        console.log("lest elem deleted");
+      }
+      else if (nrOfdeletedTodo !== initialTodoNr) { 
+        for (let i = nrOfdeletedTodo+1; i <= initialTodoNr; i++) {
+          projectsContainer[getCurrentlyObj]["todo" + `${nrOfdeletedTodo}`] = projectsContainer[getCurrentlyObj]["todo" + `${i}`]
+          delete projectsContainer[getCurrentlyObj]["todo" + `${i}`];
+          nrOfdeletedTodo++
+          console.log("del one")
+        };
+      }
+      else {
+        console.log("something wronf")
+      };
+      console.log(projectsContainer);
+    }
+    else{}
+  });
+};
