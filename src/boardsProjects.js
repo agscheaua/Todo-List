@@ -15,6 +15,7 @@ function createBoard() {
   openEditModal();
   submitEditsTodo();
   deleteTodoFunc();
+  reAssignTodoNamesOBJ();
 };
  
 //show the todo modal with all the inputs that can be writen for the todo item
@@ -239,29 +240,100 @@ function submitEditsTodo() {
   });
 };
 
-let deletedTodos = 0;
+// deletes a todo from the DOM and from the object;
+
 function deleteTodoFunc() {
   getStaticElements.projectBoard.addEventListener("click", (eve) => {
     eve.preventDefault();
+
     if (eve.target.classList.contains("deleteTodo")) {
       const parentElementTodo = eve.target.parentElement.parentElement;
-      const getCurrentlyObj = getStaticElements.projectTitle.textContent;
+      const getCurrentlyObjName = getStaticElements.projectTitle.textContent;
+
+      parentElementTodo.remove();
+      delete projectsContainer[getCurrentlyObjName][parentElementTodo.classList[1]];
+
+      projectsContainer[getCurrentlyObjName]["todoNr"] -= 1;
+
+      console.log(projectsContainer);
+    }
+    else{};
+  });
+};
+
+// reassign the class name to the DOM elements and property names to the objects;
+
+function reAssignTodoNamesOBJ() {
+getStaticElements.projectBoard.addEventListener("click", (eve) => {
+  if (eve.target.classList.contains("deleteTodo")) {
+    const parentElementTodo = eve.target.parentElement.parentElement;
+    const getCurrentlyObjName = getStaticElements.projectTitle.textContent;
+
+    const initialTodoNrExisting = (projectsContainer[getCurrentlyObjName].todoNr) - 1;
+    console.log(initialTodoNrExisting);
+
+    const containerTodos = [];
+
+    const getAllKeysInObj = Object.keys(projectsContainer[getCurrentlyObjName]); 
+    getAllKeysInObj.forEach( (item) => {
+      if (Object.hasOwn(projectsContainer[getCurrentlyObjName][item], "task")) {
+        containerTodos.push(item);
+      }
+      else {};
+    });
+    console.log(containerTodos);
+    console.log(projectsContainer[getCurrentlyObjName][containerTodos[0]]);
+
+    for (let i = 0; i <= containerTodos.length - 1; i++) {
+      projectsContainer[getCurrentlyObjName]["todo" + `${i}`] = projectsContainer[getCurrentlyObjName][containerTodos[`${i}`]];
+      delete projectsContainer[getCurrentlyObjName][containerTodos[`${i}`]];
+    };
+    console.log(projectsContainer);
+    
+    /*if (nrOfdeletedTodo === initialTodoNr) {
+        for (let i = 0; i <= initialTodoNrExisting; i++) {
+          projectsContainer[getCurrentlyObj]["todo" + `${nrOfdeletedTodo}`] = projectsContainer[getCurrentlyObj]["todo" + `${i}`]
+          delete projectsContainer[getCurrentlyObj]["todo" + `${i}`];
+          nrOfdeletedTodo++
+          console.log("del one")
+        };
+    }
+    else {
+      console.log("something wrong")
+    };*/
+
+  }
+  else {};
+});
+  
+
+
+
+
+      /*
+      if (nrOfdeletedTodo === initialTodoNr) {
+        console.log("lest elem deleted");
+      }
+      else if (nrOfdeletedTodo !== initialTodoNr) { 
+        for (let i = nrOfdeletedTodo+1; i <= initialTodoNr; i++) {
+          projectsContainer[getCurrentlyObj]["todo" + `${nrOfdeletedTodo}`] = projectsContainer[getCurrentlyObj]["todo" + `${i}`]
+          delete projectsContainer[getCurrentlyObj]["todo" + `${i}`];
+          nrOfdeletedTodo++
+          console.log("del one")
+        };
+      }
+      else {
+        console.log("something wrong")
+      };
 
       const initialTodoNr = (projectsContainer[getCurrentlyObj].todoNr) -1 ;
 
-      const deletedTodo = parentElementTodo.classList[1];
-      let deletedTodoNr = Number(deletedTodo.slice(-1));
+      const deletedTodoObj = projectsContainer[getCurrentlyObj][parentElementTodo.classList[1]];
+      console.log(deletedTodoObj);
+      
+      let deletedTodoNr; //deletedTodoObj.slice(-1);
 
       let nrOfdeletedTodo = deletedTodoNr;
-
-      parentElementTodo.remove();
-      delete projectsContainer[getCurrentlyObj][parentElementTodo.classList[1]];
-
-      projectsContainer[getCurrentlyObj]["todoNr"] -= 1;
-
-      deletedTodos++
-
-      console.log(nrOfdeletedTodo, initialTodoNr);
 
       if (nrOfdeletedTodo === initialTodoNr) {
         console.log("lest elem deleted");
@@ -275,10 +347,6 @@ function deleteTodoFunc() {
         };
       }
       else {
-        console.log("something wronf")
-      };
-      console.log(projectsContainer);
-    }
-    else{}
-  });
+        console.log("something wrong")
+      };   */
 };
