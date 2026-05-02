@@ -1,4 +1,3 @@
-
 import {getStaticElements} from "./getAllTheStaticElementsDOM.js";
 import {projectsContainer} from"./projectsCreator.js"
 
@@ -15,7 +14,8 @@ function createBoard() {
   openEditModal();
   submitEditsTodo();
   deleteTodoFunc();
-  reAssignTodoNamesOBJ();
+  changeClassNameTodoEle()
+  changePropNameTodoObj();
 };
  
 //show the todo modal with all the inputs that can be writen for the todo item
@@ -130,7 +130,7 @@ function displayTodo() {
   });
 };
 
-// function to create the structure of the todo and returns its elements
+// function to create the structure of the todo and returns its elements;
 
 function createTodoContainer() {
   const todoContainer = document.createElement("div");
@@ -250,8 +250,8 @@ function deleteTodoFunc() {
       const parentElementTodo = eve.target.parentElement.parentElement;
       const getCurrentlyObjName = getStaticElements.projectTitle.textContent;
 
-      parentElementTodo.remove();
       delete projectsContainer[getCurrentlyObjName][parentElementTodo.classList[1]];
+      parentElementTodo.remove();
 
       projectsContainer[getCurrentlyObjName]["todoNr"] -= 1;
 
@@ -261,92 +261,74 @@ function deleteTodoFunc() {
   });
 };
 
-// reassign the class name to the DOM elements and property names to the objects;
+// change the class name of all the elements remaining after one its deleted;
 
-function reAssignTodoNamesOBJ() {
-getStaticElements.projectBoard.addEventListener("click", (eve) => {
-  if (eve.target.classList.contains("deleteTodo")) {
-    const parentElementTodo = eve.target.parentElement.parentElement;
-    const getCurrentlyObjName = getStaticElements.projectTitle.textContent;
-
-    const initialTodoNrExisting = (projectsContainer[getCurrentlyObjName].todoNr) - 1;
-    console.log(initialTodoNrExisting);
-
-    const containerTodos = [];
-
-    const getAllKeysInObj = Object.keys(projectsContainer[getCurrentlyObjName]); 
-    getAllKeysInObj.forEach( (item) => {
-      if (Object.hasOwn(projectsContainer[getCurrentlyObjName][item], "task")) {
-        containerTodos.push(item);
-      }
-      else {};
-    });
-    console.log(containerTodos);
-    console.log(projectsContainer[getCurrentlyObjName][containerTodos[0]]);
-
-    for (let i = 0; i <= containerTodos.length - 1; i++) {
-      projectsContainer[getCurrentlyObjName]["todo" + `${i}`] = projectsContainer[getCurrentlyObjName][containerTodos[`${i}`]];
-      delete projectsContainer[getCurrentlyObjName][containerTodos[`${i}`]];
-    };
-    console.log(projectsContainer);
-    
-    /*if (nrOfdeletedTodo === initialTodoNr) {
-        for (let i = 0; i <= initialTodoNrExisting; i++) {
-          projectsContainer[getCurrentlyObj]["todo" + `${nrOfdeletedTodo}`] = projectsContainer[getCurrentlyObj]["todo" + `${i}`]
-          delete projectsContainer[getCurrentlyObj]["todo" + `${i}`];
-          nrOfdeletedTodo++
-          console.log("del one")
-        };
-    }
-    else {
-      console.log("something wrong")
-    };*/
-
-  }
-  else {};
-});
-  
-
-
-
-
-      /*
-      if (nrOfdeletedTodo === initialTodoNr) {
-        console.log("lest elem deleted");
-      }
-      else if (nrOfdeletedTodo !== initialTodoNr) { 
-        for (let i = nrOfdeletedTodo+1; i <= initialTodoNr; i++) {
-          projectsContainer[getCurrentlyObj]["todo" + `${nrOfdeletedTodo}`] = projectsContainer[getCurrentlyObj]["todo" + `${i}`]
-          delete projectsContainer[getCurrentlyObj]["todo" + `${i}`];
-          nrOfdeletedTodo++
-          console.log("del one")
-        };
-      }
-      else {
-        console.log("something wrong")
+function changeClassNameTodoEle() {
+  getStaticElements.projectBoard.addEventListener("click", (eve) => {
+    if (eve.target.classList.contains("deleteTodo")) {
+      const getAllTodos = document.querySelectorAll(".todoContainer");
+      
+      for (let i = 0; i < getAllTodos.length; i++) {
+        getAllTodos[i].classList.replace(`${getAllTodos[i].classList[1]}`, "todo"+i);
       };
 
-      const initialTodoNr = (projectsContainer[getCurrentlyObj].todoNr) -1 ;
+      console.log(getAllTodos);
+    }
+    else {};
+    
+  });
+};
 
-      const deletedTodoObj = projectsContainer[getCurrentlyObj][parentElementTodo.classList[1]];
-      console.log(deletedTodoObj);
-      
-      let deletedTodoNr; //deletedTodoObj.slice(-1);
 
-      let nrOfdeletedTodo = deletedTodoNr;
+// change property names of the objects after each todo deletion;
 
-      if (nrOfdeletedTodo === initialTodoNr) {
-        console.log("lest elem deleted");
+function changePropNameTodoObj() {
+  getStaticElements.projectBoard.addEventListener("click", (eve) => {
+    if (eve.target.classList.contains("deleteTodo")) {
+      const parentElementTodo = eve.target.parentElement.parentElement;
+      const getCurrentlyObjName = getStaticElements.projectTitle.textContent;
+
+      const TodoNrExistingIndex = (projectsContainer[getCurrentlyObjName].todoNr) - 1;
+
+      const containerTodos = [];
+
+      const getAllKeysInObj = Object.keys(projectsContainer[getCurrentlyObjName]); 
+        getAllKeysInObj.forEach( (item) => {
+          if (Object.hasOwn(projectsContainer[getCurrentlyObjName][item], "task")) {
+            containerTodos.push(item);
+          }
+          else {};
+        });
+
+      const temporaryObjTodosContainer = {};
+
+      if (containerTodos.length === 0) {
+        console.log("zero todos");
       }
-      else if (nrOfdeletedTodo !== initialTodoNr) { 
-        for (let i = nrOfdeletedTodo+1; i <= initialTodoNr; i++) {
-          projectsContainer[getCurrentlyObj]["todo" + `${nrOfdeletedTodo}`] = projectsContainer[getCurrentlyObj]["todo" + `${i}`]
-          delete projectsContainer[getCurrentlyObj]["todo" + `${i}`];
-          nrOfdeletedTodo++
-          console.log("del one")
-        };
+      else if (containerTodos.length !== 0) {
+        for (let i = 0; i < containerTodos.length; i++) {
+          temporaryObjTodosContainer["todo" + i] = projectsContainer[getCurrentlyObjName][containerTodos[i]];
+        }
       }
       else {
-        console.log("something wrong")
-      };   */
+        console.log("temp obj assign prop");
+      };
+
+      for (let i = 0; i < containerTodos.length; i++) {
+        delete projectsContainer[getCurrentlyObjName][containerTodos[i]];
+        projectsContainer[getCurrentlyObjName].todoNr = 0;
+      };
+
+      for (let i = 0; i < containerTodos.length; i++) {
+        projectsContainer[getCurrentlyObjName]["todo"+i] = temporaryObjTodosContainer["todo"+i];
+        projectsContainer[getCurrentlyObjName].todoNr = containerTodos.length;
+      };
+
+      console.log(temporaryObjTodosContainer);
+      console.log(containerTodos);
+      console.log(projectsContainer);
+      console.log(projectsContainer[getCurrentlyObjName].todoNr);
+    }
+    else {};
+  });
 };
