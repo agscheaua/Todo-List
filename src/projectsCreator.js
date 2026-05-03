@@ -2,6 +2,7 @@ import {getStaticElements} from "./getAllTheStaticElementsDOM.js";
 
 export {createProject};
 export {projectsContainer};
+export {createProjLocStor};
 
 // object that contains all the object dynamically created;
 
@@ -29,6 +30,19 @@ class TodosCreator {
   startDate;
   endDate;
 }; 
+
+// create an object for each proj button saved inside the local storage;
+
+function createProjLocStor() {
+  for (let i = 0; i < localStorage.length; i++) {
+    if (localStorage.getItem("projectButton" + i)) {
+      const project = new ProjectsCreator(localStorage.getItem("projectButton" + i));
+      projectsContainer[localStorage.getItem("projectButton" + i)] = project;
+    }
+    else {};
+  };
+  console.log(projectsContainer);
+};
 
 // function to create an object for each project button created;
 

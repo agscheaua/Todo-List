@@ -16,6 +16,8 @@ function createBoard() {
   deleteTodoFunc();
   changeClassNameTodoEle()
   changePropNameTodoObj();
+  deleteProject();
+  changeClassNameProjButton();
 };
  
 //show the todo modal with all the inputs that can be writen for the todo item
@@ -90,6 +92,9 @@ function writeInTodoContainer() {
       getStaticElements.modalTodo.close();
 
       console.log(projectsContainer[currentObjName]);
+
+      const objStoredInLocStor = JSON.stringify(projectsContainer[currentObjName]);
+      localStorage.setItem(currentObjName, objStoredInLocStor);
     };
   });
 };
@@ -108,23 +113,25 @@ function displayTodo() {
 
     let currentObj;
     if (eve.target.nodeName === "BUTTON") {
-      currentObj = eve.target.textContent;
-
-      let currentTodoNr = 0;
-      for (let i = 0; i < (projectsContainer[currentObj].todoNr); i++) {
+      currentObj = JSON.parse(localStorage.getItem(eve.target.textContent));
+      if (currentObj) {
+        let currentTodoNr = 0;
+        for (let i = 0; i < (currentObj.todoNr); i++) {
     
-      const currentTodo = projectsContainer[currentObj]["todo" + currentTodoNr];
+          const currentTodo = currentObj["todo" + currentTodoNr];
 
-      const createStructure = createTodoContainer();
+          const createStructure = createTodoContainer();
 
-      createStructure.todoContainer.classList.add("todo"+currentTodoNr);
-      createStructure.todoTitleBoard.textContent = currentTodo.task;
-      createStructure.todoDescriptionBoard.textContent = currentTodo.description;
-      createStructure.startDateBoard.textContent = currentTodo.startDate;
-      createStructure.endDateBoard.textContent = currentTodo.endDate; 
+          createStructure.todoContainer.classList.add("todo"+currentTodoNr);
+          createStructure.todoTitleBoard.textContent = currentTodo.task;
+          createStructure.todoDescriptionBoard.textContent = currentTodo.description;
+          createStructure.startDateBoard.textContent = currentTodo.startDate;
+          createStructure.endDateBoard.textContent = currentTodo.endDate; 
 
-      currentTodoNr++;
-      };
+          currentTodoNr++;
+        };  
+      }
+      else {};
     }
     else {};
   });
@@ -228,13 +235,20 @@ function submitEditsTodo() {
 
       const getEditedObj = getStaticElements.projectTitle.textContent;
 
-      const getEditedTodoInObj = projectsContainer[getEditedObj][currentEditedTodo];
-      getEditedTodoInObj.task = titleChild.textContent
+      let getEditedTodoInObj = projectsContainer[getEditedObj][currentEditedTodo];
+      console.log(currentEditedTodo); 
+
+      getEditedTodoInObj.task = titleChild.textContent;
       getEditedTodoInObj.description = descriptionChild.textContent;
       getEditedTodoInObj.startDate = startDateChild.textContent;
       getEditedTodoInObj.endDate = endDateChild.textContent;
 
       console.log(projectsContainer[getEditedObj]);
+
+      const objStoredInLocStor = JSON.stringify(projectsContainer[getEditedObj]);
+      localStorage.setItem(getEditedObj, objStoredInLocStor); 
+
+      getStaticElements.modalTodo.close();
     }
     else {};
   });
@@ -254,8 +268,6 @@ function deleteTodoFunc() {
       parentElementTodo.remove();
 
       projectsContainer[getCurrentlyObjName]["todoNr"] -= 1;
-
-      console.log(projectsContainer);
     }
     else{};
   });
@@ -271,8 +283,6 @@ function changeClassNameTodoEle() {
       for (let i = 0; i < getAllTodos.length; i++) {
         getAllTodos[i].classList.replace(`${getAllTodos[i].classList[1]}`, "todo"+i);
       };
-
-      console.log(getAllTodos);
     }
     else {};
     
@@ -302,17 +312,13 @@ function changePropNameTodoObj() {
 
       const temporaryObjTodosContainer = {};
 
-      if (containerTodos.length === 0) {
-        console.log("zero todos");
-      }
+      if (containerTodos.length === 0) {}
       else if (containerTodos.length !== 0) {
         for (let i = 0; i < containerTodos.length; i++) {
           temporaryObjTodosContainer["todo" + i] = projectsContainer[getCurrentlyObjName][containerTodos[i]];
         }
       }
-      else {
-        console.log("temp obj assign prop");
-      };
+      else {};
 
       for (let i = 0; i < containerTodos.length; i++) {
         delete projectsContainer[getCurrentlyObjName][containerTodos[i]];
@@ -324,11 +330,49 @@ function changePropNameTodoObj() {
         projectsContainer[getCurrentlyObjName].todoNr = containerTodos.length;
       };
 
-      console.log(temporaryObjTodosContainer);
-      console.log(containerTodos);
       console.log(projectsContainer);
-      console.log(projectsContainer[getCurrentlyObjName].todoNr);
     }
     else {};
+  });
+};
+
+// delete the whole project board;
+
+function deleteProject() {
+  getStaticElements.deleteProject.addEventListener("click", (eve) => {
+    const projectName = getStaticElements.projectTitle.textContent;
+
+    const getAllProjButtons = document.querySelectorAll(".projButton");
+
+    for (const elem of getAllProjButtons) {
+      if (elem.textContent === projectName) {
+        elem.remove();
+        delete projectsContainer[elem.textContent];
+      }
+      else {};
+    };
+
+    const getAllTodoContainer = document.querySelectorAll(".todoContainer");
+
+    for (const elem of getAllTodoContainer) {
+      elem.remove();
+    };
+
+    getStaticElements.projectBoard.classList.remove("open");
+    getStaticElements.projectBoard.classList.add("closed");
+
+    getStaticElements.projectTitle.textContent = "";
+  });
+};
+
+// rename the first class name of the proj buttons after one of them is deleted;
+
+function changeClassNameProjButton() {
+  getStaticElements.deleteProject.addEventListener("click", (eve) => {
+    const getAllProjButtons = document.querySelectorAll(".projButton");
+    
+    for (let i = 0; i < getAllProjButtons.length; i++) {
+      getAllProjButtons[i].classList.replace(`${getAllProjButtons[i].classList[0]}`, "projectButton" + i);
+    };
   });
 };

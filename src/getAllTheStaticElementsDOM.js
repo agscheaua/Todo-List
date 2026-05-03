@@ -24,11 +24,13 @@ const getStaticElements = (function() {
   const endTodo = document.querySelector("#endTodo");
   const priorityTodoInput = document.querySelector("#priorityTodoInput");
   const todoModalControl = document.querySelector(".todoModalControl");
+  const deleteProject = document.querySelector(".deleteProject");
 
   return {createButton, modalContainer, inputSpace,
     submitModal, cancelModal, sideBar, projectsContainer,
     projectBoardContainer, projectBoard, projectTitle,
     addTodo, modalTodo, submitTodo, cancelTodo, todoTitleInput,
     todoDescriptionInput, startTodo, endTodo, priorityTodoInput, todoModalControl,
+    deleteProject,
   };
 }) ();

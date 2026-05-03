@@ -8,6 +8,7 @@ export {createSideBar};
 function createSideBar() {
   showModalProject();
   createButtonProject();
+  displayProjButtonsLocStor();
   showHideProjectBoard();
 };  
 
@@ -27,7 +28,6 @@ function showModalProject() {
 
 // creats the buttons for each project and give them a text content;
 
-let projectsNr = 0;
 function createButtonProject() {
   getStaticElements.submitModal.addEventListener("click", (eve) => {
     eve.preventDefault();
@@ -46,14 +46,30 @@ function createButtonProject() {
     } 
     else {
       const projectButton = document.createElement("button");
-      projectButton.classList.add("projectButton" + projectsNr, "projButton", "hidden");
-      projectsNr++;
+      projectButton.classList.add("projectButton" + allProjButtons.length, "projButton", "hidden");
       getStaticElements.projectsContainer.appendChild(projectButton);
       projectButton.textContent = getStaticElements.inputSpace.value;
+
+      localStorage.setItem("projectButton" + allProjButtons.length, projectButton.textContent);
     };
 
     getStaticElements.modalContainer.close();
   });
+};
+
+// check to see if any proj buttons are saved in the localStorage and display them;
+
+function displayProjButtonsLocStor() {
+  for (let i = 0; i < localStorage.length; i++) {
+    if (localStorage.getItem("projectButton"+i)) {
+
+      const projectButton = document.createElement("button");
+      projectButton.classList.add("projectButton" + i, "projButton", "hidden");
+      getStaticElements.projectsContainer.appendChild(projectButton);
+      projectButton.textContent = localStorage.getItem("projectButton"+i);
+    }
+    else{};
+  };
 };
 
 // hide or show the board of each project button when you press click on it;
