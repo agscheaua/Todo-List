@@ -59,21 +59,57 @@ function giveBoardTitle() {
   });
 };
 
+// function to display the todos that are linked to the project selected
+
+function displayTodo() {
+  getStaticElements.projectsContainer.addEventListener("click", (eve) => {
+    if (eve.target.nodeName === "BUTTON") {
+      const todoContainer = document.querySelectorAll(".todoContainer");
+      for (const elem of todoContainer) {
+        elem.remove();
+      };
+    }
+    else {};
+    
+    if (eve.target.nodeName === "BUTTON") {
+      const currentObj = JSON.parse(localStorage.getItem(eve.target.textContent));
+      if (currentObj) {
+        let currentTodoNr = currentObj.todoNr - 1;
+
+        for (let i = 0; i < (currentObj.todoNr); i++) {
+    
+          const currentTodo = currentObj["todo"+i];
+
+          const createStructure = createTodoContainer();
+
+          createStructure.todoContainer.classList.add("todo"+i);
+          createStructure.todoTitleBoard.textContent = currentTodo.task;
+          createStructure.todoDescriptionBoard.textContent = currentTodo.description;
+          createStructure.startDateBoard.textContent = currentTodo.startDate;
+          createStructure.endDateBoard.textContent = currentTodo.endDate;         
+        };  
+      }
+      else {};
+    }
+    else {};
+  });
+};
+
 // function to dynamicaly create the todo container when we press submit
 
 function writeInTodoContainer() {
   getStaticElements.submitTodo.addEventListener("click", (eve) => {
     eve.preventDefault();
 
+    const currentObjName = getStaticElements.projectTitle.textContent; 
+
     if (editOpen === true) {
       return;
     }
-    else {
-      const currentObjName = getStaticElements.projectTitle.textContent;
+    else if ( !(JSON.parse(localStorage.getItem(currentObjName) ) ) ) {
       projectsContainer[currentObjName].createTodo();
-    
+
       const currentTodoNr = (projectsContainer[currentObjName].todoNr) - 1;
-    
       const currentTodo = projectsContainer[currentObjName]["todo" + currentTodoNr];
 
       currentTodo.task = getStaticElements.todoTitleInput.value;
@@ -89,51 +125,40 @@ function writeInTodoContainer() {
       createStructure.startDateBoard.textContent = currentTodo.startDate;
       createStructure.endDateBoard.textContent = currentTodo.endDate; 
 
-      getStaticElements.modalTodo.close();
-
-      console.log(projectsContainer[currentObjName]);
-
       const objStoredInLocStor = JSON.stringify(projectsContainer[currentObjName]);
       localStorage.setItem(currentObjName, objStoredInLocStor);
-    };
-  });
-};
+    }
+    else if ( (JSON.parse(localStorage.getItem(currentObjName) ) ) ) {
+      const currentObjNameSavedInLocStor = JSON.parse(localStorage.getItem(currentObjName));  
+      Object.assign(projectsContainer[currentObjName], currentObjNameSavedInLocStor);
+      console.log(projectsContainer[currentObjName]);
+      
+      projectsContainer[currentObjName].createTodo(); 
 
-// function to display the todos that are linked to the project selected
+      const currentTodoNr = (projectsContainer[currentObjName].todoNr) - 1;
+      const currentTodo = projectsContainer[currentObjName]["todo" + currentTodoNr];
 
-function displayTodo() {
-  getStaticElements.projectsContainer.addEventListener("click", (eve) => {
-    if (eve.target.nodeName === "BUTTON") {
-      const todoContainer = document.querySelectorAll(".todoContainer");
-      for (const elem of todoContainer) {
-        elem.remove();
-      };
+      currentTodo.task = getStaticElements.todoTitleInput.value;
+      currentTodo.description = getStaticElements.todoDescriptionInput.value;
+      currentTodo.startDate = getStaticElements.startTodo.value;
+      currentTodo.endDate = getStaticElements.endTodo.value;    
+
+      const createStructure = createTodoContainer();
+
+      createStructure.todoContainer.classList.add("todo"+currentTodoNr);
+      createStructure.todoTitleBoard.textContent = currentTodo.task;
+      createStructure.todoDescriptionBoard.textContent = currentTodo.description;
+      createStructure.startDateBoard.textContent = currentTodo.startDate;
+      createStructure.endDateBoard.textContent = currentTodo.endDate; 
+      
+      const objStoredInLocStor = JSON.stringify(projectsContainer[currentObjName]);
+      localStorage.setItem(currentObjName, objStoredInLocStor);    
     }
     else {};
 
-    let currentObj;
-    if (eve.target.nodeName === "BUTTON") {
-      currentObj = JSON.parse(localStorage.getItem(eve.target.textContent));
-      if (currentObj) {
-        let currentTodoNr = 0;
-        for (let i = 0; i < (currentObj.todoNr); i++) {
-    
-          const currentTodo = currentObj["todo" + currentTodoNr];
+    getStaticElements.modalTodo.close();
 
-          const createStructure = createTodoContainer();
-
-          createStructure.todoContainer.classList.add("todo"+currentTodoNr);
-          createStructure.todoTitleBoard.textContent = currentTodo.task;
-          createStructure.todoDescriptionBoard.textContent = currentTodo.description;
-          createStructure.startDateBoard.textContent = currentTodo.startDate;
-          createStructure.endDateBoard.textContent = currentTodo.endDate; 
-
-          currentTodoNr++;
-        };  
-      }
-      else {};
-    }
-    else {};
+    console.log(projectsContainer[currentObjName]);
   });
 };
 
@@ -221,6 +246,8 @@ function openEditModal() {
 function submitEditsTodo() {
   getStaticElements.submitTodo.addEventListener("click", (eve) => {
     if (editOpen === true) {
+      const getEditedObj = getStaticElements.projectTitle.textContent;
+
       const getTodoEdited = document.querySelector(`.${currentEditedTodo}`);
 
       const titleChild = document.querySelector(`.${currentEditedTodo}` + " .todoTitleBoard");
@@ -233,10 +260,10 @@ function submitEditsTodo() {
       startDateChild.textContent = getStaticElements.startTodo.value;
       endDateChild.textContent = getStaticElements.endTodo.value;
 
-      const getEditedObj = getStaticElements.projectTitle.textContent;
-
+      const currentObjNameSavedInLocStor = JSON.parse(localStorage.getItem(getEditedObj));  
+      Object.assign(projectsContainer[getEditedObj], currentObjNameSavedInLocStor);
+      
       let getEditedTodoInObj = projectsContainer[getEditedObj][currentEditedTodo];
-      console.log(currentEditedTodo); 
 
       getEditedTodoInObj.task = titleChild.textContent;
       getEditedTodoInObj.description = descriptionChild.textContent;
@@ -264,10 +291,20 @@ function deleteTodoFunc() {
       const parentElementTodo = eve.target.parentElement.parentElement;
       const getCurrentlyObjName = getStaticElements.projectTitle.textContent;
 
+      const currentObjNameSavedInLocStor = JSON.parse(localStorage.getItem(getCurrentlyObjName));  
+      Object.assign(projectsContainer[getCurrentlyObjName], currentObjNameSavedInLocStor);
+
+      console.log(projectsContainer[getCurrentlyObjName]);
+      
       delete projectsContainer[getCurrentlyObjName][parentElementTodo.classList[1]];
       parentElementTodo.remove();
 
-      projectsContainer[getCurrentlyObjName]["todoNr"] -= 1;
+      projectsContainer[getCurrentlyObjName]["todoNr"]--;
+
+      const objStoredInLocStor = JSON.stringify(projectsContainer[getCurrentlyObjName]);
+      localStorage.setItem(getCurrentlyObjName, objStoredInLocStor); 
+
+      console.log(projectsContainer[getCurrentlyObjName]); 
     }
     else{};
   });

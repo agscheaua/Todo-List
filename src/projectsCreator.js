@@ -54,8 +54,6 @@ function createProject() {
       projectsContainer[`${lastChildElem.textContent}`] = project;
       console.log(projectsContainer);
     }
-    else{
-      console.log("no child"); 
-    };
+    else{};
   });
 };
