@@ -3,6 +3,7 @@ import {getStaticElements} from "./getAllTheStaticElementsDOM.js";
 export {createProject};
 export {projectsContainer};
 export {createProjLocStor};
+export {initializeObj};
 
 // object that contains all the object dynamically created;
 
@@ -56,4 +57,22 @@ function createProject() {
     }
     else{};
   });
+};
+
+// initialize the obj with their respective values saved in the local storage;
+
+function initializeObj() {
+  const getAllProjButtons = document.querySelectorAll(".projButton");
+  
+  for (let i = 0; i < getAllProjButtons.length; i++) {
+    if (localStorage.getItem(getAllProjButtons[i].textContent)) {
+      const objSavedInLocalStorage = JSON.parse(localStorage.getItem(getAllProjButtons[i].textContent));
+
+      const objDynamicaliCreated = projectsContainer[getAllProjButtons[i].textContent];
+      console.log(objDynamicaliCreated);
+
+      Object.assign(objDynamicaliCreated, objSavedInLocalStorage);
+    }
+    else {}; 
+  };
 };

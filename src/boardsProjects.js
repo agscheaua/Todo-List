@@ -16,10 +16,15 @@ function createBoard() {
   deleteTodoFunc();
   changeClassNameTodoEle()
   changePropNameTodoObj();
+  deleteProjAndObjFromLocStor();
+  deleteAllProjObjInLocSto();
+  updateLocStorProjBut();
   deleteProject();
   changeClassNameProjButton();
+  updateTheObjInLocalStorage();
 };
  
+
 //show the todo modal with all the inputs that can be writen for the todo item
 //variable editOpen is made to check from what button the todo modal was open so 
 //that the functionality of the events will not get intertwine;
@@ -290,19 +295,11 @@ function deleteTodoFunc() {
     if (eve.target.classList.contains("deleteTodo")) {
       const parentElementTodo = eve.target.parentElement.parentElement;
       const getCurrentlyObjName = getStaticElements.projectTitle.textContent;
-
-      const currentObjNameSavedInLocStor = JSON.parse(localStorage.getItem(getCurrentlyObjName));  
-      Object.assign(projectsContainer[getCurrentlyObjName], currentObjNameSavedInLocStor);
-
-      console.log(projectsContainer[getCurrentlyObjName]);
       
       delete projectsContainer[getCurrentlyObjName][parentElementTodo.classList[1]];
       parentElementTodo.remove();
 
-      projectsContainer[getCurrentlyObjName]["todoNr"]--;
-
-      const objStoredInLocStor = JSON.stringify(projectsContainer[getCurrentlyObjName]);
-      localStorage.setItem(getCurrentlyObjName, objStoredInLocStor); 
+      projectsContainer[getCurrentlyObjName].todoNr -= 1;
 
       console.log(projectsContainer[getCurrentlyObjName]); 
     }
@@ -373,6 +370,55 @@ function changePropNameTodoObj() {
   });
 };
 
+// after a todo is deleted update the object in the local storage;
+
+function updateTheObjInLocalStorage() {
+  getStaticElements.projectBoard.addEventListener("click", (eve) => {
+    if (eve.target.classList.contains("deleteTodo")) { 
+      const currentObjUpdated = projectsContainer[getStaticElements.projectTitle.textContent];
+      const getCurrentlyObjName = getStaticElements.projectTitle.textContent;
+
+      const objStoredInLocStor = JSON.stringify(currentObjUpdated);
+      localStorage.setItem(getCurrentlyObjName, objStoredInLocStor); 
+    }
+    else {};
+  });
+};
+
+// delete the obj and obj button from the local storage;
+
+function deleteProjAndObjFromLocStor() {
+  getStaticElements.deleteProject.addEventListener("click", (eve) => {
+    const projectName = getStaticElements.projectTitle.textContent;
+    
+    const getAllProjButtons = document.querySelectorAll(".projButton");
+
+    localStorage.removeItem(projectName);
+
+    for (let elem of getAllProjButtons) {
+      if (elem.textContent === projectName) {
+        localStorage.removeItem(elem.classList[0]);
+      }
+      else {
+        console.log("noo");
+      };
+    };
+  });
+};
+
+// deletes all the project buttons saved in the localStorage;
+
+function deleteAllProjObjInLocSto() {
+  getStaticElements.deleteProject.addEventListener("click", (eve) => {
+
+    const getCurrentObjName = getStaticElements.projectTitle.textContent;
+
+    for (let i = 0; i < localStorage.length + 3; i++) {
+      localStorage.removeItem("projectButton" + i)
+    };
+  });
+};
+
 // delete the whole project board;
 
 function deleteProject() {
@@ -411,5 +457,18 @@ function changeClassNameProjButton() {
     for (let i = 0; i < getAllProjButtons.length; i++) {
       getAllProjButtons[i].classList.replace(`${getAllProjButtons[i].classList[0]}`, "projectButton" + i);
     };
+  });
+};
+
+// push all project buttons named and value to the localStorage;
+
+function updateLocStorProjBut() {
+  getStaticElements.deleteProject.addEventListener("click", (eve) => {
+    const getAllProjButtons = document.querySelectorAll(".projButton");
+    console.log(getAllProjButtons);
+    
+    for (let i = 0; i < (getAllProjButtons.length)-1; i++) {
+      localStorage.setItem(getAllProjButtons[i].classList[0], getAllProjButtons[i].textContent);
+    }
   });
 };
