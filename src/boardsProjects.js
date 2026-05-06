@@ -16,12 +16,10 @@ function createBoard() {
   deleteTodoFunc();
   changeClassNameTodoEle()
   changePropNameTodoObj();
-  deleteProjAndObjFromLocStor();
-  deleteAllProjObjInLocSto();
-  updateLocStorProjBut();
   deleteProject();
   changeClassNameProjButton();
   updateTheObjInLocalStorage();
+  deleteProjAndObjFromLocStor();
 };
  
 
@@ -385,42 +383,6 @@ function updateTheObjInLocalStorage() {
   });
 };
 
-// delete the obj and obj button from the local storage;
-
-function deleteProjAndObjFromLocStor() {
-  getStaticElements.deleteProject.addEventListener("click", (eve) => {
-    const projectName = getStaticElements.projectTitle.textContent;
-    
-    const getAllProjButtons = document.querySelectorAll(".projButton");
-
-    localStorage.removeItem(projectName);
-
-    for (let elem of getAllProjButtons) {
-      if (elem.textContent === projectName) {
-        localStorage.removeItem(elem.classList[0]);
-      }
-      else {
-        console.log("noo");
-      };
-    };
-  });
-};
-
-// deletes all the project buttons saved in the localStorage;
-
-function deleteAllProjObjInLocSto() {
-  getStaticElements.deleteProject.addEventListener("click", (eve) => {
-
-    const getCurrentObjName = getStaticElements.projectTitle.textContent;
-
-    for (let i = 0; i < localStorage.length + 3; i++) {
-      localStorage.removeItem("projectButton" + i)
-    };
-  });
-};
-
-// delete the whole project board;
-
 function deleteProject() {
   getStaticElements.deleteProject.addEventListener("click", (eve) => {
     const projectName = getStaticElements.projectTitle.textContent;
@@ -460,15 +422,22 @@ function changeClassNameProjButton() {
   });
 };
 
-// push all project buttons named and value to the localStorage;
+// delete the obj and obj button from the local storage;
 
-function updateLocStorProjBut() {
+function deleteProjAndObjFromLocStor() {
   getStaticElements.deleteProject.addEventListener("click", (eve) => {
+    const projectName = getStaticElements.projectTitle.textContent;
+    
     const getAllProjButtons = document.querySelectorAll(".projButton");
     console.log(getAllProjButtons);
-    
-    for (let i = 0; i < (getAllProjButtons.length)-1; i++) {
-      localStorage.setItem(getAllProjButtons[i].classList[0], getAllProjButtons[i].textContent);
-    }
+  
+    for (let elem of getAllProjButtons) {
+      if (elem.textContent === projectName) {
+        localStorage.removeItem(elem.classList[0]);
+      }
+      else {
+        console.log("noo");
+      };
+    };
   });
 };
