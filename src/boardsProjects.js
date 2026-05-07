@@ -20,6 +20,8 @@ function createBoard() {
   changeClassNameProjButton();
   updateTheObjInLocalStorage();
   deleteProjAndObjFromLocStor();
+  deletProjButAndObjFromLocStor();
+  deletesAllProjectsBoardStranded();
 };
  
 
@@ -383,9 +385,13 @@ function updateTheObjInLocalStorage() {
   });
 };
 
+// delete the whole project board with all the todos
+let projectNameGlobal;
 function deleteProject() {
   getStaticElements.deleteProject.addEventListener("click", (eve) => {
     const projectName = getStaticElements.projectTitle.textContent;
+
+    projectNameGlobal = projectName;
 
     const getAllProjButtons = document.querySelectorAll(".projButton");
 
@@ -422,22 +428,43 @@ function changeClassNameProjButton() {
   });
 };
 
-// delete the obj and obj button from the local storage;
+// delete the obj form the projectsContainer object;
 
 function deleteProjAndObjFromLocStor() {
   getStaticElements.deleteProject.addEventListener("click", (eve) => {
     const projectName = getStaticElements.projectTitle.textContent;
-    
+
     const getAllProjButtons = document.querySelectorAll(".projButton");
-    console.log(getAllProjButtons);
-  
-    for (let elem of getAllProjButtons) {
-      if (elem.textContent === projectName) {
-        localStorage.removeItem(elem.classList[0]);
-      }
-      else {
-        console.log("noo");
-      };
+    
+    delete projectsContainer[projectName];
+
+    console.log(projectsContainer);
+  });
+};
+
+// deletes the projectButton and its saved obj from the local storage and rename
+// the projectButtons saved in the local storage the same as the ones in the DOM;
+
+function deletProjButAndObjFromLocStor() {
+  getStaticElements.deleteProject.addEventListener("click", () => {
+    const getAllProjButtons = document.querySelectorAll(".projButton");
+
+    const initialLocalStorageLength = localStorage.length;
+
+    for (let i = 0; i < initialLocalStorageLength; i++) {
+      localStorage.removeItem("projectButton" + i);
     };
+
+    for (let i = 0; i < getAllProjButtons.length; i++) {
+      localStorage.setItem(getAllProjButtons[i].classList[0], getAllProjButtons[i].textContent);
+    };
+  });
+};
+
+// deletes the proj created when we create a single to do;
+
+function deletesAllProjectsBoardStranded() {
+  getStaticElements.deleteProject.addEventListener("click", () => {
+    localStorage.removeItem(projectNameGlobal);
   });
 };
