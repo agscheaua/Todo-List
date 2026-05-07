@@ -63,7 +63,7 @@ body {
   padding: 20px;
   margin: 10px;
   border-radius: 6px;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   border: 1px solid var(--background-elements);
 }
 .createButton:hover {
@@ -73,7 +73,7 @@ body {
 
 .projectsContainer {
   color: var(--background-general-textColor);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin: 10px;
   padding-left: 20px;
   overflow: auto;
@@ -86,7 +86,7 @@ body {
   background-color: var(--background-general-color);
   color: var(--background-general-textColor);
   display: block;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin-top: 10px;
   padding: 5px 10px 5px 0px;
   border: 0px;
@@ -126,8 +126,17 @@ body {
   color: var(--background-general-textColor);
   border: 1px solid var(--background-elements);
   border-radius: 6px;
-  padding: 5px 0px;
+  padding: 5px 20px;
   font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.projectTitle {
+  margin-left: 22px;
+}
+
+.projectBoard button:first-of-type {
+  margin-right: 20px;
 }
 
 .closed {
@@ -144,23 +153,23 @@ body {
   margin-top: 2px; 
   overflow: hidden;
   font-size: 1.5rem;
+   margin-left: 22px;
 }
 .todoContainer:hover {
   border-radius: 6px;
-  background-color: var(--background-elements);
+  border: 1px solid var(--background-general-textColor);
 }
 
 .todoContainer button {
-  background-color: var(--background-general-color);
+  background-color: var(--background-board);
   color: var(--background-general-textColor);
-  border: 1px solid var(--background-elements);
-  border-radius: 6px;
+  border: 0px;
   padding: 5px 0px;
   font-size: 1.5rem;
+  cursor: pointer;
 }
 .todoContainer button:hover{
   cursor: pointer;
-  
 }
 
 .startDateBoard {
@@ -170,4 +179,105 @@ body {
 .deleteTodo,
 .doneUndoneTodo {
   margin-left: 10px;
+}
+
+/* modal that create the project name styles
+*/
+
+.modalContainer {
+  margin: auto auto;
+  padding: 5px;
+  background-color: var(--background-elements);
+  font-size: 2rem;
+}
+
+.modalText {
+  color: var(--background-general-textColor);
+}
+
+#inputSpace {
+  width: 100%;
+  font-size: 1.5rem;
+  background-color: var(--background-general-textColor);
+  border-radius: 5px;
+  border: 1px solid var(--background-general-textColor)
+}
+
+#inputSpace:hover {
+  border-radius: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.submitModal {
+  width: 48%;
+  margin-left: 2px;
+  font-size: 1.1rem;
+  background-color: var(--background-general-textColor);
+  border-radius: 3px;
+  border: 1px solid var(--background-general-textColor);
+  padding: 1px 0;
+  cursor: pointer;
+}
+
+.cancelModal {
+  width: 48%;
+  font-size: 1.1rem;
+  background-color: var(--background-general-textColor);
+  border-radius: 3px;
+  border: 1px solid var(--background-general-textColor);
+  padding: 1px 0;
+  cursor: pointer;
+}
+
+/*create a to do modal styles
+*/
+
+.modalTodo {
+  margin: auto auto;
+  padding: 5px;
+  background-color: var(--background-elements);
+  font-size: 2rem;
+  border-radius: 5px;
+}
+
+.todoForm {
+  color: var(--background-general-textColor);
+}
+
+.modalTodo input {
+  width: 100%;
+  font-size: 1.5rem;
+  background-color: var(--background-general-textColor);
+  border-radius: 5px;
+  border: 1px solid var(--background-general-textColor);
+  padding: 2px 0px;
+}
+
+.modalTodo input:hover {
+  border-radius: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.submitTodo {
+  width: 48%;
+  margin-left: 2px;
+  font-size: 1.1rem;
+  background-color: var(--background-general-textColor);
+  border-radius: 3px;
+  border: 1px solid var(--background-general-textColor);
+  padding: 1px 0;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.cancelTodo {
+  width: 48%;
+  font-size: 1.1rem;
+  background-color: var(--background-general-textColor);
+  border-radius: 3px;
+  border: 1px solid var(--background-general-textColor);
+  padding: 1px 0;
+  cursor: pointer;
 }

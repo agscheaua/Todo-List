@@ -4,6 +4,8 @@ export {createProject};
 export {projectsContainer};
 export {createProjLocStor};
 export {initializeObj};
+export {createDummyProject};
+export {keyIndicator};
 
 // object that contains all the object dynamically created;
 
@@ -76,3 +78,30 @@ function initializeObj() {
     else {}; 
   };
 };
+
+// sets a key in the local storage to idicate if this is the first time the webpage
+// was ever open;
+
+function keyIndicator() {
+  if (localStorage.getItem("firstTimeOpened")) {
+    localStorage.removeItem("firstTimeOpened");
+    
+    localStorage.setItem("firstTimeOpened", false) 
+  }
+  else {
+    localStorage.setItem("firstTimeOpened", true);
+  };
+};
+
+// creates a dummy project when we open the page for the first time; 
+
+function createDummyProject() {
+  if ( (localStorage.getItem("firstTimeOpened")) === "true") {
+    const projectButton = document.createElement("button");
+    projectButton.classList.add("projectButton" + 0, "projButton", "hidden");
+    getStaticElements.projectsContainer.appendChild(projectButton);
+    projectButton.textContent = localStorage.getItem("projectButton"+0);
+    projectButton.textContent = "Default Project";
+  }
+  else {};
+}
