@@ -260,6 +260,24 @@ body {
   cursor: pointer;
 }
 
+.modalTodo textarea {
+  width: 100%;
+  font-size: 1.5rem;
+  background-color: var(--background-general-textColor);
+  border-radius: 5px;
+  border: 1px solid var(--background-general-textColor);
+  padding: 2px 0px;
+  resize: none;
+  margin-top: 5px;
+  vertical-align: -7px;
+}
+
+.modalTodo textarea:hover {
+  border-radius: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
 .submitTodo {
   width: 48%;
   margin-left: 2px;

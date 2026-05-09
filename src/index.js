@@ -15,4 +15,3 @@ createProject();
 createProjLocStor();
 initializeObj();
 keyIndicator();
-createDummyProject();

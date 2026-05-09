@@ -2,6 +2,7 @@ import {getStaticElements} from "./getAllTheStaticElementsDOM.js";
 import {projectsContainer} from"./projectsCreator.js"
 
 export {createBoard};
+export {createTodoContainer};
 
 
 // function that runs all the code inside the boardsProjects;
