@@ -1,6 +1,5 @@
 import path from "node:path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import { watchFile } from "node:fs";
 
 export default {
   entry: "./src/index.js",
