@@ -6,7 +6,8 @@
   "scripts": {
     "branchName": "git branch",
     "start": "webpack server --open --config webpack.dev.js",
-    "build": "webpack server --open --config webpack.prod.js"
+    "build": "webpack server --open --config webpack.prod.js",
+    "construct": "webpack --config webpack.dev.js"
   },
   "repository": {
     "type": "git",
